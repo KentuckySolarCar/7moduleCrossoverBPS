@@ -1,0 +1,92 @@
+
+#ifndef _crossoverBPS_definitions_JF
+#define _crossoverBPS_definitions_JF
+
+
+///////////////////////////////////////////////////
+//external oscillator configuration
+//#pragma	config	OSC = HS
+                
+
+///////////////////////////////////////////////////
+//LED configuration
+#define led1	LATAbits.LATA4	//1 for on 0 for off	//this is the heartbeat led
+#define led2	LATBbits.LATB1	//1 for on 0 for off 	//this is the red led
+#define LEDON	1
+#define LEDOFF	0
+
+//RA4 are the leds (set to output (0))
+//TRISA &= 0b11101111;
+//TRISB &= 0b11011111;
+
+////////////////////////////////////////////////////
+//battery measure and collect
+//RD0 controls the optocouplers that store the charge onto the capacitor
+//RD1 controls the optocouplers that let the charge on the capacitor be measured
+//in both cases 0 turns the optocouplers on and 1 turns them off
+//NOTE: NEVER open them at the same time.
+#define collect LATDbits.LATD0
+#define measure	LATDbits.LATD1
+#define	OPTOOFF	1
+#define OPTOON	0
+
+//TRISD &= 0b11111100;//RD0, 1 are the optocoupler controls (set to output (0))
+
+//battery voltage is measured on AN0 (RA0)
+//thermristor is measured on AN1 (RA1)
+//external voltage referencing (RA2 -> AN2 -> VREF-) (RA3 -> AN3 -> VREF+)
+//#define VREF_PLUS	4.0960
+#define VREF_PLUS 4.5000
+#define VREF_MINUS	0
+
+#define OPTODELAY 8000
+
+////////////////////////////////////////////////////
+//CBS relay configuration
+#define	cbsrelay	LATCbits.LATC0	//0 for on
+#define	CBSOFF	1
+#define	CBSON	0
+
+//TRISC &= 0b11111110;//RC0 is the relay drive line (set to output (0))
+
+
+////////////////////////////////////////////////////
+//Interrupt configuration
+
+//right now I am not planning on any interrupts but I wanted to make it easy to change that later
+//	If interrups are desired then change INTERRUPTENABLE to 1
+#define GLOBALINTERRUPTS	INTCONbits.GIE
+#define INTERRUPTENABLE	0
+#define INTERRUPTDISABLE	0
+
+
+
+////////////////////////////////////////////////////
+//CAN message configuration
+//CAN message identifiers are 11 bits long
+#define	MASK_BPS_SLAVE	0b00011111100
+#define	MASK_BPS_READING	0b00000000001
+#define	MASK_CBS	0b00000000010
+#define MASK_BPS_MASTER	0b00100000000
+
+#define	BALANCEON	0xFF
+#define	BALANCEOFF	0x00
+
+
+////////////////////////////////////////////////////
+//Unused pin configuration
+//best option is to set the unconnected pins to output and set to 0;
+//the list of unused pins:
+//RB 0,1,4,5
+//RC 1,2,3,7
+//RD 4,5,6,7
+//RE 0,1,2
+
+//TRISA &= 0b11111111;
+//TRISB &= 0b11001100;
+//TRISC &= 0b01110001;
+//TRISD &= 0b00001111;
+//TRISE &= 0b11111000;
+
+
+#endif
